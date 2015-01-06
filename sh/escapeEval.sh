@@ -1,4 +1,4 @@
-# Copyright (C) Alexander Kozhevnikov 2014-09-27;
+# Copyright (C) Alexander Kozhevnikov 2015-01-06;
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public Licence as published by
@@ -15,15 +15,21 @@
 # or write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330 Boston MA 02111-1307 USA.
 
-# On 2014-09-27, this script was compatible with Bourne and POSIX shells.
+# On 2015-01-06, this script was compatible with Bourne and POSIX shells.
 
 escapeEval()
 {
- until [ $# = 0 ]
+ while true
  do
   printf "'"
   printf %s "$1" | sed "s/'/'\\\\''/g"
-  printf "' "
   shift
+  if [ $# = 0 ]
+  then
+   printf "'\n"
+   break
+  else
+   printf "' "
+  fi
  done
 }
