@@ -1,4 +1,4 @@
-# Copyright (C) Alexander Kozhevnikov 2015-01-06;
+# Copyright (C) Alexander Kozhevnikov <mentalisttraceur@gmail.com> 2015-01-06;
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public Licence as published by
