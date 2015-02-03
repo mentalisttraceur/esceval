@@ -27,8 +27,7 @@ a final single quote and a space (to separate the arguments from each other).
 To make the output more legible when used interactively, it prints a trailing
 newline. Since Bourne/POSIX shells strip off ALL trailing newlines when doing
 command substitution, it won't in practice effect the usecases where this tool
-is needed. Similarly, the trailing space behind the last argument is unneeded,
- */
+is needed. */
 
 #include <stdio.h>
 
