@@ -17,18 +17,6 @@
  * 59 Temple Place, Suite 330 Boston MA 02111-1307 USA.
  */
 
-/* This program adds one layer of Bourne/POSIX shell escaping around every
-argument passed to it (each argument is escaped individually, to preserve the
-boundary between arguments). */
-/* Specifically, it prints a single quote before each argument, then prints all
-characters of the argument verbatim, except for single quotes, for which it
-prints a single quote, a backslash, and two more single quotes. Then it prints
-a final single quote and a space (to separate the arguments from each other).
-To make the output more legible when used interactively, it prints a trailing
-newline. Since Bourne/POSIX shells strip off ALL trailing newlines when doing
-command substitution, it won't in practice effect the usecases where this tool
-is needed. */
-
 #include <stdio.h>
 
 int main(int argc, char * argv[])
