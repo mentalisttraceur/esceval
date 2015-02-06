@@ -15,9 +15,9 @@
 # or write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330 Boston MA 02111-1307 USA.
 
-# On 2015-01-06, this script was compatible with Bourne and POSIX shells.
+# On 2015-02-06, this script was compatible with Bourne and POSIX shells.
 
-escapeEval()
+esceval()
 {
  while true
  do
