@@ -19,7 +19,7 @@
 
 esceval()
 {
- while true
+ until [ $# = 0 ]
  do
   printf "'"
   printf %s "$1" | sed "s/'/'\\\\''/g"
@@ -27,7 +27,6 @@ esceval()
   if [ $# = 0 ]
   then
    printf "'\n"
-   break
   else
    printf "' "
   fi
