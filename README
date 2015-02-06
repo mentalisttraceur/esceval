@@ -1,12 +1,91 @@
-This program adds one layer of Bourne/POSIX shell escaping around every
-argument passed to it (each argument is escaped individually, to preserve the
-boundary between arguments).
+--- Summary ---
 
-Specifically, it prints a single quote before each argument, then prints all
-characters of the argument verbatim, except for single quotes, for which it
-prints a single quote, a backslash, and two more single quotes. Then it prints
-a final single quote and a space (to separate the arguments from each other).
-To make the output more legible when used interactively, it prints a trailing
-newline instead of a space after the last argument. Since Bourne/POSIX shells
-strip off ALL trailing newlines when doing command substitution, it won't in
-practice effect the usecases where this tool is needed.
+escapeEval adds one layer of Bourne/POSIX shell escaping around every argument
+passed to it (each argument is escaped individually, to preserve the boundary
+between arguments).
+
+Having this utility makes it possible to do certain things within the shell
+that are otherwise impossible to do in robust, portable, and clean ways. It can
+also enable making certain other illegible shell constructs slightly less so.
+
+This is nothing new or groundbreaking: if you've spent enough time in a Bourne-
+family shell you'll have doubtlessly rolled your own take on this same thing. I
+put this out here because I think this shouldn't be relegated to rare notes in
+"How to code robust shell scripts" tutorials. I would like to see something
+like 'escapeEval' become a standard utility on all systems which use
+Bourne/POSIX shells. I don't care if it's this exact one, or if it's called
+"escapeEval", so long as we can one day expect to be able to invoke it on any
+shell we run, with the same confidence with which we expect to have tr or eval.
+
+--- The (not really that impressive) stuff ---
+
+Currently provided are two implementations of escapeEval:
+1. A tiny and basic C (no really) program. (If you can compile the archetypical
+   C "Hello World!" program, you should have no trouble compiling this.)
+2. A shell script escapeEval() function, which depends on sed. Virtually always
+   less efficient than the C approach, but provided here because it could be
+   preferable to compiling a new binary in some circumstances. escapeEval.sh
+   can either be sourced or just copasted directly into your shell script code.
+   I know of no Bourne/POSIX shell + sed combination that this would not work
+   in, but please tell me if you find one.
+
+--- escapeEval Description/"Spec" ---
+
+My implementations of escapeEval behave as follows:
+
+For each argument it's invoked with:
+1. Print a single quote.
+2. For each character of the argument:
+ If the character is a single quote:
+  Then: print a single quote, a backslash, and two more single quotes.
+  Else: print the character verbatim.
+3. Print a single quote.
+4. If it's the last argument:
+ Then: print a newline.
+ Else: print a space.
+
+--- Rationalle ---
+ 
+Points 1-3 are the simplest way to escape an arbitrary string that I know of.
+However, I recognize there may be arguments for doing more complex parsing in
+order to produce "neater" output in some cases (e.g. if the argument is: ''',
+my way would produce ''\'''\'''\''' even though "'''" or \'\'\' are both also
+valid escapings of three single quotes); perhaps the performance overhead of
+such parsing would be smaller than the work a shell does to parse so many
+redundant double quotes. Therefore if, hypothetically, it were up to me to
+write an "official" escapeEval spec, an implementation would be conformant so
+long as the functional result of its escaping was the same. (However, I would
+implore any such alternative implementations to at least consider taking into
+account older and obscure Bourne shells still in use, for example those which
+still use '^' as if it had the same special meaning as the '|' character, when
+evaluating if their escaping approach is functionally equivalent to this one.)
+
+Point 4 ensures that the escaped arguments are separated by whitespace from
+each other, and the final newline means the result will be more legible to
+anyone seeing the output (POSIX/Bourne shells strip ALL trailing newlines from
+command substitution output before substituting it, so that newline will
+'disappear' in typical shell script usage). In practice, simply printing a
+newline between every argument would work too, but I thought the output was
+more intuitive that way.
+
+IFS:
+Currently escapeEval does not take any care to check the value of the IFS
+environment variable. My current opinion is that this should be acceptable
+because setting the IFS to something non-default is a very special case and
+if absolutely needed, it could be set to defailt temporarily when evaluating
+escapeEval output, then reset it to your non-default value again when done. But
+I am happy to consider arguments that it should instead give IFS special
+consideration, for example by printing the value of IFS between arguments
+rather than a space.
+
+ENCODINGS:
+Currently escapeEval.c, which is my "primary"/"reference" implementation of
+escapeEval, does not in any way concern itself with wide character encodings
+which may have the value of the ASCII ' as a valid byte within another
+character. My current opinion is that the only encodings to care about in a
+general purpose tool are UTF-8, and by logical extension, its subset ASCII. As
+I understand it, escapeEval.c will handle both of those just fine. I am not
+sure how much of a problem this may pose for Bourne/POSIX shell users on
+Windows systems (e.g. those using shells from Git Bash, cygwin, mingw,
+busybox-w32, etc.) so again I am willing to consider arguments and suggestions
+on this front.
