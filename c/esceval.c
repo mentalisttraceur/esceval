@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Alexander Kozhevnikov <mentalisttraceur@gmail.com> 2015-01-06;
+ * Copyright (C) Alexander Kozhevnikov <mentalisttraceur@gmail.com> 2015-02-24;
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public Licence as published by
@@ -26,9 +26,9 @@ int main(int argc, char * argv[])
   return 0;
  }
  size_t i = 1;
+ fputc('\'', stdout);
  while(1)
  {
-  fputc('\'', stdout);
   size_t j = 0;
   while(1)
   {
@@ -50,10 +50,10 @@ int main(int argc, char * argv[])
   i += 1;
   if(i == argc)
   {
-   fputs("'\n", stdout);
    break;
   }
-  fputs("' ", stdout);
+  fputs("' '", stdout);
  }
+ fputs("'\n", stdout);
  return 0;
 }
