@@ -23,17 +23,15 @@ if ! type esceval > /dev/null
 then
  esceval()
  {
+  case $# in 0) return 0;; esac
   while true
   do
    printf "'"
    printf %s "$1" | sed "s/'/'\\\\''/g"
    shift
-   case $# in
-   0)
-    printf "'\n"
-    break
-   esac
+   case $# in 0) break;; esac
    printf "' "
   done
+  printf "'\n"
  }
 fi
