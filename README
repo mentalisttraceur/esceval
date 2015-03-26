@@ -16,20 +16,6 @@ shells. I don't care if it's this exact one, or if it's called "esceval". I
 just have a dream that one day something like this will be as much a part of
 expected shell commands as eval itself is.
 
---- The (not really that impressive) stuff ---
-
-Currently provided are two implementations of esceval:
-1. c/esceval.c
-   A tiny and basic C (no really) program. (If you can compile the archetypical
-   C "Hello World!" program, you should have no trouble compiling this.)
-2. sh/esceval.sh
-   A shell script esceval() function, which depends on sed. Realistically, this
-   is VERY inefficient vs the C version, but provided here because it could be
-   preferable to compiling a new binary in some circumstances. Can either be
-   be sourced by your shell script, or just copasted into it.
-   I know of no Bourne/POSIX shell + sed combination that this would not work
-   in, but please tell me if you find one.
-
 --- esceval Description/"Spec" ---
 
 My implementations of esceval behave as follows:
@@ -69,6 +55,22 @@ command substitution output before substituting it, so that newline will
 'disappear' in typical shell script usage). In practice, simply printing a
 newline between every argument would work too, but I thought the output was
 more intuitive that way.
+
+--- The (not really that impressive) stuff ---
+
+Currently provided are two implementations of esceval:
+1. c/esceval.c
+   A tiny and basic C (no really) program. (If you can compile the archetypical
+   C "Hello World!" program, you should have no trouble compiling this.)
+2. sh/esceval.sh
+   This is a polyfill - you can include this in your shell scripts, and if the
+   command "type esceval" returns a failure, it defines an esceval() function.
+   The shell script esceval() function depends on sed. Realistically, this is
+   VERY inefficient vs the C version, but provided here because it could be
+   preferable to compiling a new binary in some circumstances. Can either be
+   be sourced by your shell script, or just copasted into it.
+   I know of no Bourne/POSIX shell + sed combination that this would not work
+   in, but please tell me if you find one.
 
 IFS:
 Currently esceval does not take any care to check the value of the IFS
