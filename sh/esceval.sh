@@ -19,18 +19,21 @@
 # EXCEPT for the following exceptions:
 # Function declarations (some ancient Bourne shells don't support functions).
 
-esceval()
-{
- while true
- do
-  printf "'"
-  printf %s "$1" | sed "s/'/'\\\\''/g"
-  shift
-  case $# in
-  0)
-   printf "'\n"
-   break
-  esac
-  printf "' "
- done
-}
+if ! type esceval > /dev/null
+then
+ esceval()
+ {
+  while true
+  do
+   printf "'"
+   printf %s "$1" | sed "s/'/'\\\\''/g"
+   shift
+   case $# in
+   0)
+    printf "'\n"
+    break
+   esac
+   printf "' "
+  done
+ }
+fi
