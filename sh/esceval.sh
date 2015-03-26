@@ -1,4 +1,4 @@
-# Copyright (C) Alexander Kozhevnikov <mentalisttraceur@gmail.com> 2015-01-06;
+# Copyright (C) Alexander Kozhevnikov <mentalisttraceur@gmail.com> 2015-03-26;
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public Licence as published by
@@ -15,22 +15,22 @@
 # or write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330 Boston MA 02111-1307 USA.
 
-# On 2015-02-24, this script was compatible with Bourne and POSIX shells.
+# On 2015-03-26, this script was compatible with Bourne and POSIX shells.
 # EXCEPT for the following exceptions:
 # Function declarations (some ancient Bourne shells don't support functions).
 
 esceval()
 {
- until [ $# = 0 ]
+ while true
  do
   printf "'"
   printf %s "$1" | sed "s/'/'\\\\''/g"
   shift
-  if [ $# = 0 ]
-  then
+  case $# in
+  0)
    printf "'\n"
-  else
-   printf "' "
-  fi
+   break
+  esac
+  printf "' "
  done
 }
