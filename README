@@ -31,7 +31,7 @@ For each argument it's invoked with:
  Then: print a newline.
  Else: print a space.
 
---- Rationalle ---
+--- Rationale ---
  
 Points 1-3 are the simplest way to escape an arbitrary string that I know of.
 
