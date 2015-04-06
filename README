@@ -77,7 +77,7 @@ IFS:
 Currently esceval does not take any care to check the value of the IFS
 environment variable. My current opinion is that this should be acceptable
 because setting the IFS to something non-default is a very special case and
-if absolutely needed, it could be set to defailt temporarily when evaluating
+if absolutely needed, it could be set to default temporarily when evaluating
 esceval output, then reset it to your non-default value again when done. But
 I am happy to consider arguments that it should instead give IFS special
 consideration, for example by printing the value of IFS between arguments
