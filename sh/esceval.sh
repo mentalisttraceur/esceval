@@ -1,4 +1,4 @@
-# Copyright (C) Alexander Kozhevnikov <mentalisttraceur@gmail.com> 2015-04-06;
+# Copyright (C) Alexander Kozhevnikov <mentalisttraceur@gmail.com> 2015-04-07;
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public Licence as published by
@@ -15,7 +15,7 @@
 # or write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330 Boston MA 02111-1307 USA.
 
-# On 2015-04-06, this script was compatible with Bourne and POSIX shells.
+# On 2015-04-07, this script was compatible with Bourne and POSIX shells.
 # EXCEPT for the following exceptions:
 # Function declarations (some ancient Bourne shells don't support functions).
 
@@ -23,8 +23,8 @@ if ! type esceval > /dev/null
 then
  esceval()
  {
+  case $# in 0) return 0; esac
   (
-   case $# in 0) return 0; esac
    while true
    do
     printf "'"
