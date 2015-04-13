@@ -15,9 +15,12 @@
 # or write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330 Boston MA 02111-1307 USA.
 
-# On 2015-04-07, this script was compatible with Bourne and POSIX shells.
+# On 2015-04-13, this script was compatible with Bourne and POSIX shells.
 # EXCEPT for the following exceptions:
 # Function declarations (some ancient Bourne shells don't support functions).
+# ${var%%word} is not supported in some shells (e.g. Solaris 10 /bin/sh).
+# ${var#word} is not supported in some shells (e.g. Solaris 10 /bin/sh).
+# I am currently unclear on the portability of the "type" command.
 
 if ! type esceval > /dev/null
 then
