@@ -18,6 +18,7 @@
 # On 2015-04-14, this script was compatible with Bourne and POSIX shells.
 # EXCEPT for the following exceptions:
 # Function declarations (some ancient Bourne shells don't support functions).
+# Shifting positional parameters (some old MIPS RISC/os shells couldn't do it).
 # I am currently unclear on the portability of the "type" command.
 
 if type esceval > /dev/null
