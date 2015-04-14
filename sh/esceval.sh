@@ -20,8 +20,12 @@
 # Function declarations (some ancient Bourne shells don't support functions).
 # I am currently unclear on the portability of the "type" command.
 
-if ! type esceval > /dev/null
+if type esceval > /dev/null
 then
+ # Some ancient Bourne shells did not support using '!' to negate exit values
+ # of commands. So we do a noop command here.
+ :
+else
  # ${var%%word} and ${var#word} are not supported in old Bourne shells, such as
  # the /bin/sh on Solaris 10 and earlier. So first we check if that syntax is
  # working. If it is, we do the shell-only implementation. If it is not, we
