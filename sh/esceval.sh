@@ -38,11 +38,11 @@ else
    # The rest of the function is in a subshell to keep the variable definitions
    # from leaking into the shell environment this is being run in.
    (
-    while true
+    while :
     do
      printf "'\''"
      UNESCAPED=$1
-     while true
+     while :
      do
       case $UNESCAPED in
       *\'\''*)
@@ -66,7 +66,7 @@ else
   esceval()
   {
    case $# in 0) return 0; esac
-   while true
+   while :
    do
     printf "'"
     printf %s "$1" | sed "s/'/'\\\\''/g"
