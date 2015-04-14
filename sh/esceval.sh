@@ -22,21 +22,13 @@
 
 if type esceval > /dev/null
 then
- # Some ancient Bourne shells did not support using '!' to negate exit values
- # of commands. So we do a noop command here.
  :
 else
- # ${var%%word} and ${var#word} are not supported in old Bourne shells, such as
- # the /bin/sh on Solaris 10 and earlier. So first we check if that syntax is
- # working. If it is, we do the shell-only implementation. If it is not, we
- # fall back onto a sed-dependent implementation.
  if (eval 'echo ${A%%a} ${A#a}' 1>/dev/null 2>&1)
  then
   eval 'esceval()
   {
    case $# in 0) return 0; esac
-   # The rest of the function is in a subshell to keep the variable definitions
-   # from leaking into the shell environment this is being run in.
    (
     while :
     do
