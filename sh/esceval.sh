@@ -40,7 +40,7 @@ else
       case $UNESCAPED in
       *\'\''*)
        printf %s "${UNESCAPED%%\'\''*}"
-       printf "'"'\''"'"
+       printf %s "'"'\''"'"
        UNESCAPED=${UNESCAPED#*\'\''}
        ;;
       *)
