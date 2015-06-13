@@ -17,7 +17,7 @@
 
 # On 2015-06-13, this script was compatible with Bourne and POSIX shells.
 # EXCEPT for the following exceptions:
-# Function declarations (some ancient Bourne shells don't support functions).
+# Function declarations (First appeared in SVR2 Bourne shells in 1984).
 # Shifting positional parameters (some old MIPS RISC/os shells couldn't do it).
 
 if command -v esceval 1>/dev/null 2>&1
