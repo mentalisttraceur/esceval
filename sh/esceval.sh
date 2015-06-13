@@ -1,4 +1,4 @@
-# Copyright (C) Alexander Kozhevnikov <mentalisttraceur@gmail.com> 2015-04-28;
+# Copyright (C) Alexander Kozhevnikov <mentalisttraceur@gmail.com> 2015-06-13;
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public Licence as published by
@@ -15,13 +15,12 @@
 # or write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330 Boston MA 02111-1307 USA.
 
-# On 2015-04-28, this script was compatible with Bourne and POSIX shells.
+# On 2015-06-13, this script was compatible with Bourne and POSIX shells.
 # EXCEPT for the following exceptions:
 # Function declarations (some ancient Bourne shells don't support functions).
 # Shifting positional parameters (some old MIPS RISC/os shells couldn't do it).
-# I am currently unclear on the portability of the "type" command.
 
-if type esceval 1>/dev/null 2>&1
+if command -v esceval 1>/dev/null 2>&1
 then
  :
 else
