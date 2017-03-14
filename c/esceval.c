@@ -16,20 +16,21 @@
 
 #include <stdio.h>
 
-int main(int argc, char * argv[])
+int main(int argc, char * * argv)
 {
+ char * arg;
  if(argc < 2)
  {
   return 0;
  }
- size_t i = 1;
+ argv += 1;
  fputc('\'', stdout);
  while(1)
  {
-  size_t j = 0;
+  arg = *argv;
   while(1)
   {
-   char c = argv[i][j];
+   char c = *arg;
    if(c == '\'')
    {
     fputs("'\\''", stdout);
@@ -42,10 +43,10 @@ int main(int argc, char * argv[])
    {
     break;
    }
-   j += 1;
+   arg += 1;
   }
-  i += 1;
-  if(i == argc)
+  argv += 1;
+  if(!*argv)
   {
    break;
   }
