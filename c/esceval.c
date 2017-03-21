@@ -1,5 +1,5 @@
 /*****************************************************************************\
- * Copyright (C) 2015-02-24 Alexander Kozhevnikov <mentalisttraceur@gmail.com>
+ * Copyright (C) 2017-03-21 Alexander Kozhevnikov <mentalisttraceur@gmail.com>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted.
