@@ -13,7 +13,17 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 \*****************************************************************************/
 
-#include <stdio.h>
+#include <stdio.h> /* fputs, fputc, EOF */
+#include <stdlib.h> /* EXIT_SUCCESS, EXIT_FAILURE, exit */
+
+static
+void fail_on_eof(int result)
+{
+ if(result == EOF)
+ {
+  exit(EXIT_FAILURE);
+ }
+}
 
 int main(int argc, char * * argv)
 {
@@ -23,7 +33,7 @@ int main(int argc, char * * argv)
   return 0;
  }
  argv += 1;
- fputc('\'', stdout);
+ fail_on_eof(fputc('\'', stdout));
  while(1)
  {
   arg = *argv;
@@ -32,11 +42,11 @@ int main(int argc, char * * argv)
    char c = *arg;
    if(c == '\'')
    {
-    fputs("'\\''", stdout);
+    fail_on_eof(fputs("'\\''", stdout));
    }
    else if(c)
    {
-    fputc(c, stdout);
+    fail_on_eof(fputc(c, stdout));
    }
    else
    {
@@ -49,8 +59,9 @@ int main(int argc, char * * argv)
   {
    break;
   }
-  fputs("' '", stdout);
+  fail_on_eof(fputs("' '", stdout));
  }
- fputs("'\n", stdout);
- return 0;
+ fail_on_eof(fputs("'\n", stdout));
+ fail_on_eof(fflush(stdout));
+ return EXIT_SUCCESS;
 }
