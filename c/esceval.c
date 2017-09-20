@@ -1,5 +1,5 @@
 /*****************************************************************************\
- * Copyright (C) 2017-03-21 Alexander Kozhevnikov <mentalisttraceur@gmail.com>
+ * Copyright (C) 2017-09-07 Alexander Kozhevnikov <mentalisttraceur@gmail.com>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted.
@@ -17,10 +17,11 @@
 #include <stdlib.h> /* EXIT_SUCCESS, EXIT_FAILURE, exit */
 
 static
-void fail_on_eof(int result)
+void fail_on_eof(int result, char * arg0)
 {
  if(result == EOF)
  {
+  perror(arg0);
   exit(EXIT_FAILURE);
  }
 }
@@ -28,12 +29,13 @@ void fail_on_eof(int result)
 int main(int argc, char * * argv)
 {
  char * arg;
+ char * arg0 = *argv;
  if(argc < 2)
  {
   return 0;
  }
  argv += 1;
- fail_on_eof(fputc('\'', stdout));
+ fail_on_eof(fputc('\'', stdout), arg0);
  while(1)
  {
   arg = *argv;
@@ -42,11 +44,11 @@ int main(int argc, char * * argv)
    char c = *arg;
    if(c == '\'')
    {
-    fail_on_eof(fputs("'\\''", stdout));
+    fail_on_eof(fputs("'\\''", stdout), arg0);
    }
    else if(c)
    {
-    fail_on_eof(fputc(c, stdout));
+    fail_on_eof(fputc(c, stdout), arg0);
    }
    else
    {
@@ -59,9 +61,9 @@ int main(int argc, char * * argv)
   {
    break;
   }
-  fail_on_eof(fputs("' '", stdout));
+  fail_on_eof(fputs("' '", stdout), arg0);
  }
- fail_on_eof(fputs("'\n", stdout));
- fail_on_eof(fflush(stdout));
+ fail_on_eof(fputs("'\n", stdout), arg0);
+ fail_on_eof(fflush(stdout), arg0);
  return EXIT_SUCCESS;
 }
