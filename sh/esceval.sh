@@ -53,15 +53,23 @@ else
   esceval()
   {
    case $# in 0) return 0; esac
-   while :
-   do
-    printf "'"
-    printf %s "$1" | sed "s/'/'\\\\''/g"
-    shift
-    case $# in 0) break; esac
-    printf "' "
-   done
-   printf "'\n"
+   (
+    while :
+    do
+     escaped=`
+      printf '%s\\n' "$1" \
+      | sed "
+         s/'/'\\\\\\\\''/g
+         1 s/^/'/
+         $ s/$/'/
+        "
+     `
+     shift
+     case $# in 0) break; esac
+     printf '%s ' "$escaped"
+    done
+    printf '%s\n' "$escaped"
+   )
   }
  fi
 fi
