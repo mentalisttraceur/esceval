@@ -28,25 +28,25 @@ else
    (
     while :
     do
-     printf "'\''"
+     escaped=\'\''
      unescaped=$1
      while :
      do
       case $unescaped in
       *\'\''*)
-       printf %s "${unescaped%%\'\''*}""'"'\''"'"
+       escaped=$escaped${unescaped%%\'\''*}"'"'\''"'"
        unescaped=${unescaped#*\'\''}
        ;;
       *)
        break
       esac
      done
-     printf %s "$unescaped"
+     escaped=$escaped$unescaped\'\''
      shift
      case $# in 0) break; esac
-     printf "'\'' "
+     printf "%s " "$escaped"
     done
-    printf "'\''\n"
+    printf "%s\n" "$escaped"
    )
   }'
  else
