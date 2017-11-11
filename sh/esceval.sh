@@ -26,6 +26,7 @@ else
   {
    case $# in 0) return 0; esac
    (
+    set -e
     while :
     do
      escaped=\'\''
@@ -54,6 +55,7 @@ else
   {
    case $# in 0) return 0; esac
    (
+    set -e
     while :
     do
      escaped=`
