@@ -1,4 +1,4 @@
-# Copyright (C) 2015-02-24 Alexander Kozhevnikov <mentalisttraceur@gmail.com>
+# Copyright (C) 2017-11-11 Alexander Kozhevnikov <mentalisttraceur@gmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted.
@@ -11,7 +11,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-# On 2016-01-01, this script was compatible with Bourne and POSIX shells.
+# On 2017-11-11, this script was compatible with Bourne and POSIX shells.
 # EXCEPT for the following exceptions:
 # Function declarations (First appeared in SVR2 Bourne shells in 1984).
 # command built-in (not supported in really old Bourne shells)
@@ -56,12 +56,13 @@ else
    case $# in 0) return 0; esac
    (
     set -e
+    b='\\'
     while :
     do
      escaped=`
-      printf '%s\\n' "$1" \
+      printf '%s\n' "$1" \
       | sed "
-         s/'/'\\\\\\\\''/g
+         s/'/'$b''/g
          1 s/^/'/
          $ s/$/'/
         "
