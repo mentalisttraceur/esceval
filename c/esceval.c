@@ -13,7 +13,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 \*****************************************************************************/
 
-#include <stdio.h> /* fputs, fputc, EOF */
+#include <stdio.h> /* fputs, fputc, perror, EOF */
 #include <stdlib.h> /* EXIT_SUCCESS, EXIT_FAILURE, exit */
 
 static
