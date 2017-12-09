@@ -32,7 +32,7 @@ int main(int argc, char * * argv)
  char * arg0 = *argv;
  if(argc < 2)
  {
-  return 0;
+  return EXIT_SUCCESS;
  }
  argv += 1;
  fail_on_eof(fputc('\'', stdout), arg0);
