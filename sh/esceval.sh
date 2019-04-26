@@ -1,4 +1,4 @@
-# Copyright (C) 2014, 2015, 2017
+# Copyright (C) 2014, 2015, 2017, 2019
 # Alexander Kozhevnikov <mentalisttraceur@gmail.com>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -12,7 +12,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-# On 2017-11-11, this script was compatible with Bourne and POSIX shells.
+# On 2019-04-25, this script was compatible with Bourne and POSIX shells.
 # EXCEPT for the following exceptions:
 # Function declarations (First appeared in SVR2 Bourne shells in 1984).
 # command built-in (not supported in really old Bourne shells)
@@ -27,7 +27,6 @@ else
   {
    case $# in 0) return 0; esac
    (
-    set -e
     while :
     do
      escaped=\'\''
@@ -46,7 +45,7 @@ else
      escaped=$escaped$unescaped\'\''
      shift
      case $# in 0) break; esac
-     printf "%s " "$escaped"
+     printf "%s " "$escaped" || return $?
     done
     printf "%s\n" "$escaped"
    )
@@ -56,7 +55,6 @@ else
   {
    case $# in 0) return 0; esac
    (
-    set -e
     b='\\'
     while :
     do
@@ -67,10 +65,10 @@ else
          1 s/^/'/
          $ s/$/'/
         "
-     `
+     ` || return $?
      shift
      case $# in 0) break; esac
-     printf '%s ' "$escaped"
+     printf '%s ' "$escaped" || return $?
     done
     printf '%s\n' "$escaped"
    )
