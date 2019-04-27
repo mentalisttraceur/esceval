@@ -28,7 +28,6 @@ void fail_on_eof(int result, char * arg0)
 
 int main(int argc, char * * argv)
 {
- char * arg;
  char * arg0 = *argv;
  if(argc < 2)
  {
@@ -36,10 +35,10 @@ int main(int argc, char * * argv)
  }
  argv += 1;
  fail_on_eof(fputc('\'', stdout), arg0);
- while(1)
+ for(;;)
  {
-  arg = *argv;
-  while(1)
+  char * arg = *argv;
+  for(;;)
   {
    char c = *arg;
    if(c == '\'')
