@@ -1,20 +1,27 @@
---- Summary ---
+esceval
+=======
 
-esceval (short for "Escape Eval") adds one layer of Bourne/POSIX shell escaping
-around every argument passed to it (each argument is escaped individually, to
-preserve the boundaries between arguments).
+Escape (quote) things so that they evaluate back to the same value in all
+Bourne-like shells (`sh`, `bash`, `dash`, `zsh`, `ksh`, `ash`, POSIX, ...).
 
-This utility makes it possible to do certain things within the shell that are
+
+Summary
+-------
+
+`esceval` (short for "Escape Eval") adds one layer of Bourne/POSIX shell
+escaping around every argument passed to it (each argument is escaped
+individually, to preserve the boundaries between arguments).
+
+It's also a strict specification for *how* to escape/quote scrings for
+maximum safety and portability across *all* Bourne-like shells.
+
+This makes it possible to do certain things within the shell that are
 otherwise harder or impossible to do in robust, portable, and clean ways.
 
-This is nothing new or groundbreaking: if you've spent enough time in a Bourne-
-family shell you'll have doubtlessly rolled your own take on this same thing. I
-put this out here because I think this shouldn't be relegated to rare notes in
-"How to code robust shell scripts" tutorials. I would like to see something
-like 'esceval' become a standard utility on all systems which use Bourne/POSIX
-shells. I don't care if it's this exact one, or if it's called "esceval". I
-just have a dream that one day something like this will be as much a part of
-expected shell commands as eval itself is.
+This is nothing new or groundbreaking: if you've spent enough time in a
+Bourne-family shell you'll have doubtlessly rolled your own take on this
+same thing, and modern shells have the `%q` flag for `printf` which does
+almost the same thing in a less portable way.
 
 --- esceval Description/"Spec" ---
 
