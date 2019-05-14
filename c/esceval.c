@@ -13,8 +13,8 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 \*****************************************************************************/
 
-#include <stdio.h> /* fputs, fputc, perror, EOF */
-#include <stdlib.h> /* EXIT_SUCCESS, EXIT_FAILURE, exit */
+#include <stdio.h> /* EOF, fputc, fputs, perror */
+#include <stdlib.h> /* EXIT_FAILURE, EXIT_SUCCESS, exit */
 
 static
 void fail_on_eof(int result, char * arg0)
