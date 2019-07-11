@@ -17,7 +17,7 @@
 #include <stdlib.h> /* EXIT_FAILURE, EXIT_SUCCESS, exit */
 
 static
-void fail_on_eof(int result, char * arg0)
+void fail_if_eof(int result, char * arg0)
 {
  if(result == EOF)
  {
@@ -34,7 +34,7 @@ int main(int argc, char * * argv)
   return EXIT_SUCCESS;
  }
  argv += 1;
- fail_on_eof(fputc('\'', stdout), arg0);
+ fail_if_eof(fputc('\'', stdout), arg0);
  for(;;)
  {
   char * arg = *argv;
@@ -43,11 +43,11 @@ int main(int argc, char * * argv)
    char c = *arg;
    if(c == '\'')
    {
-    fail_on_eof(fputs("'\\''", stdout), arg0);
+    fail_if_eof(fputs("'\\''", stdout), arg0);
    }
    else if(c)
    {
-    fail_on_eof(fputc(c, stdout), arg0);
+    fail_if_eof(fputc(c, stdout), arg0);
    }
    else
    {
@@ -60,9 +60,9 @@ int main(int argc, char * * argv)
   {
    break;
   }
-  fail_on_eof(fputs("' '", stdout), arg0);
+  fail_if_eof(fputs("' '", stdout), arg0);
  }
- fail_on_eof(fputs("'\n", stdout), arg0);
- fail_on_eof(fflush(stdout), arg0);
+ fail_if_eof(fputs("'\n", stdout), arg0);
+ fail_if_eof(fflush(stdout), arg0);
  return EXIT_SUCCESS;
 }
