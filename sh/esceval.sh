@@ -1,15 +1,11 @@
 # SPDX-License-Identifier: 0BSD
 # Copyright 2014 Alexander Kozhevnikov <mentalisttraceur@gmail.com>
 
-# On 2019-04-25, this script was compatible with Bourne and POSIX shells.
+# On 2019-07-11, this script was compatible with Bourne and POSIX shells.
 # EXCEPT for the following exceptions:
 # Function declarations (First appeared in SVR2 Bourne shells in 1984).
-# command built-in (not supported in really old Bourne shells)
 
-if command -v esceval 1>/dev/null 2>&1
-then
- :
-else
+case `esceval '' 2>&1 || :` in "''") :;; *)
  if (eval 'echo ${A%%a} ${A#a}' 1>/dev/null 2>&1)
  then
   eval 'esceval()
@@ -63,4 +59,4 @@ else
    )
   }
  fi
-fi
+esac
