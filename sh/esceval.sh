@@ -23,9 +23,9 @@ case `esceval '' 2>&1 || :` in "''") :;; *)
             escaped=$escaped$unescaped\'
             shift
             case $# in 0) break; esac
-            printf '%s ' "$escaped" || return $?
+            printf '%s ' "$escaped" || exit 1
         done
-        printf '%s\n' "$escaped"
+        printf '%s\n' "$escaped" || exit 1
     )
 esac
 
