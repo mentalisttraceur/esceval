@@ -4,9 +4,9 @@
 #include <stdlib.h> /* EXIT_SUCCESS, EXIT_FAILURE, exit, getenv */
 
 static
-char * require(char required, char * string)
+char * require_quote(char * string)
 {
-    if(*string != required)
+    if(*string != '\'')
     {
         exit(EXIT_FAILURE);
     }
@@ -19,13 +19,13 @@ char * require_closing_quote(char * string)
     for(;;)
     {
         char next = *string;
-        if(next == '\0')
-        {
-            exit(EXIT_FAILURE);
-        }
         if(next == '\'')
         {
             return string + 1;
+        }
+        else if(next == '\0')
+        {
+            exit(EXIT_FAILURE);
         }
         string += 1;
     }
@@ -44,23 +44,23 @@ char * skip_spaces(char * string)
 static
 void escevalid(char * unvalidated)
 {
-    unvalidated = skip_spaces(unvalidated);
     while(*unvalidated != '\0')
     {
-        unvalidated = require('\'', unvalidated);
-        unvalidated = require_closing_quote(unvalidated);
-        if(*unvalidated == ' ')
+        if(*unvalidated == '\'')
         {
-            unvalidated = skip_spaces(unvalidated);
+            unvalidated = require_closing_quote(unvalidated + 1);
         }
-        else if(*unvalidated != '\0')
+        else if(*unvalidated == '\\')
         {
-            unvalidated = require('\\', unvalidated);
-            unvalidated = require('\'', unvalidated);
-            if(*unvalidated == '\0')
-            {
-                exit(EXIT_FAILURE);
-            }
+            unvalidated = require_quote(unvalidated + 1);
+        }
+        else if(*unvalidated == ' ')
+        {
+            unvalidated = skip_spaces(unvalidated + 1);
+        }
+        else
+        {
+            exit(EXIT_FAILURE);
         }
     }
 }

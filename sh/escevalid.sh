@@ -37,12 +37,12 @@ _escevalid_require_closing_quote()
 }
 
 # Mutates: $unvalidated
-# Exits current (sub)shell if the next character is not the required one.
-_escevalid_require()
+# Exits current (sub)shell if the next character is not a quote.
+_escevalid_require_quote()
 {
     case $unvalidated in
-    "$1"*)
-        unvalidated=${unvalidated#"$1"}
+    \'*)
+        unvalidated=${unvalidated#\'}
     ;;
     *)
         exit 1
@@ -53,20 +53,26 @@ escevalid()
 (
     for unvalidated
     do
-        _escevalid_skip_spaces
         while :
         do
-            case $unvalidated in '') break; esac
-            _escevalid_require \'
-            _escevalid_require_closing_quote
             case $unvalidated in
+            '')
+                break
+            ;;
+            \'*)
+                unvalidated=${unvalidated#\'}
+                _escevalid_require_closing_quote
+            ;;
+            \\*)
+                unvalidated=${unvalidated#\\}
+                _escevalid_require_quote
+            ;;
             ' '*)
+                unvalidated=${unvalidated#' '}
                 _escevalid_skip_spaces
             ;;
-            ?*)
-                _escevalid_require \\
-                _escevalid_require \'
-                case $unvalidated in '') exit 1; esac
+            *)
+                exit 1
             esac
         done
     done
