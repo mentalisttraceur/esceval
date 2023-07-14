@@ -1,68 +1,77 @@
 /* SPDX-License-Identifier: 0BSD */
 /* Copyright 2017 Alexander Kozhevnikov <mentalisttraceur@gmail.com> */
 
-#include <stdlib.h> /* EXIT_SUCCESS, EXIT_FAILURE, exit */
+#include <stdlib.h> /* EXIT_SUCCESS, EXIT_FAILURE */
 
 static
-char * require_quote(char * string)
+int escevalid_quoted_string(char * * unvalidated)
 {
+    char * string = *unvalidated;
     if(*string != '\'')
     {
-        exit(EXIT_FAILURE);
+        return 0;
     }
-    return string + 1;
-}
-
-static
-char * require_closing_quote(char * string)
-{
+    string += 1;
     for(;;)
     {
         char next = *string;
         if(next == '\'')
         {
-            return string + 1;
+            *unvalidated = string + 1;
+            return 1;
         }
         else if(next == '\0')
         {
-            exit(EXIT_FAILURE);
+            return 0;
         }
         string += 1;
     }
 }
 
 static
-char * skip_spaces(char * string)
+int escevalid_backslash_quote(char * * unvalidated)
 {
-    while(*string == ' ')
+    char * string = *unvalidated;
+    if(*string != '\\')
     {
-        string += 1;
+        return 0;
     }
-    return string;
+    string += 1;
+    if(*string != '\'')
+    {
+        return 0;
+    }
+    *unvalidated = string + 1;
+    return 1;
 }
 
 static
-void escevalid(char * unvalidated)
+int escevalid_spaces(char * * unvalidated)
+{
+    char * string = *unvalidated;
+    int matched = 0;
+    while(*string == ' ')
+    {
+        matched = 1;
+        string += 1;
+    }
+    *unvalidated = string;
+    return matched;
+}
+
+static
+int escevalid(char * unvalidated)
 {
     while(*unvalidated != '\0')
     {
-        if(*unvalidated == '\'')
+        if(!escevalid_quoted_string(&unvalidated)
+        && !escevalid_backslash_quote(&unvalidated)
+        && !escevalid_spaces(&unvalidated))
         {
-            unvalidated = require_closing_quote(unvalidated + 1);
-        }
-        else if(*unvalidated == '\\')
-        {
-            unvalidated = require_quote(unvalidated + 1);
-        }
-        else if(*unvalidated == ' ')
-        {
-            unvalidated = skip_spaces(unvalidated + 1);
-        }
-        else
-        {
-            exit(EXIT_FAILURE);
+            return 0;
         }
     }
+    return 1;
 }
 
 int main(int argc, char * * argv)
@@ -75,7 +84,10 @@ int main(int argc, char * * argv)
     argv += 1;
     while((arg = *argv++))
     {
-        escevalid(arg);
+        if(!escevalid(arg))
+        {
+            return EXIT_FAILURE;
+        }
     }
     return EXIT_SUCCESS;
 }

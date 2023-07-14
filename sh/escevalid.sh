@@ -2,33 +2,21 @@
 # Copyright 2023 Alexander Kozhevnikov <mentalisttraceur@gmail.com>
 
 # Mutates: $unvalidated
-_escevalid_skip_spaces()
+_escevalid_quoted_string()
 {
-    while :
-    do
-        case $unvalidated in
-        ' '*)
-            unvalidated=${unvalidated#' '}
-        ;;
-        *)
-            break
-        esac
-    done
-}
-
-# Mutates: $unvalidated
-# Exits current (sub)shell if there is no closing quote.
-_escevalid_require_closing_quote()
-{
+    case $unvalidated in \'*) :;; *)
+        return 1
+    esac
+    unvalidated=${unvalidated#\'}
     while :
     do
         case $unvalidated in
         \'*)
             unvalidated=${unvalidated#\'}
-            break
+            return 0
         ;;
         '')
-            exit 1
+            return 1
         ;;
         *)
             unvalidated=${unvalidated#?}
@@ -37,16 +25,34 @@ _escevalid_require_closing_quote()
 }
 
 # Mutates: $unvalidated
-# Exits current (sub)shell if the next character is not a quote.
-_escevalid_require_quote()
+_escevalid_backslash_quote()
 {
     case $unvalidated in
-    \'*)
-        unvalidated=${unvalidated#\'}
+    "\'"*)
+        unvalidated=${unvalidated#"\'"}
+        return 0
     ;;
     *)
-        exit 1
+        return 1
     esac
+}
+
+# Mutates: $unvalidated
+_escevalid_spaces()
+{
+    case $unvalidated in ' '*) :;; *)
+        return 1
+    esac
+    while :
+    do
+        case $unvalidated in
+        ' '*)
+            unvalidated=${unvalidated#' '}
+        ;;
+        *)
+            return 0
+        esac
+    done
 }
 
 escevalid()
@@ -55,25 +61,13 @@ escevalid()
     do
         while :
         do
-            case $unvalidated in
-            '')
-                break
-            ;;
-            \'*)
-                unvalidated=${unvalidated#\'}
-                _escevalid_require_closing_quote
-            ;;
-            \\*)
-                unvalidated=${unvalidated#\\}
-                _escevalid_require_quote
-            ;;
-            ' '*)
-                unvalidated=${unvalidated#' '}
-                _escevalid_skip_spaces
-            ;;
-            *)
+            case $unvalidated in '') break; esac
+            if ! _escevalid_quoted_string \
+            && ! _escevalid_backslash_quote \
+            && ! _escevalid_spaces
+            then
                 exit 1
-            esac
+            fi
         done
     done
 )
