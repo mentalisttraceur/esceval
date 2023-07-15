@@ -28,14 +28,14 @@ int main(int argc, char * * argv)
         char * arg = *argv;
         for(;;)
         {
-            char c = *arg;
-            if(c == '\'')
+            char character = *arg;
+            if(character == '\'')
             {
                 fail_if_eof(fputs("'\\''", stdout), arg0);
             }
-            else if(c)
+            else if(character)
             {
-                fail_if_eof(fputc(c, stdout), arg0);
+                fail_if_eof(fputc(character, stdout), arg0);
             }
             else
             {

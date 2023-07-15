@@ -32,14 +32,14 @@ int main(int argc, char * * argv)
         }
         for(;;)
         {
-            char c = *env;
-            if(c == '\'')
+            char character = *env;
+            if(character == '\'')
             {
                 fail_if_eof(fputs("'\\''", stdout), arg0);
             }
-            else if(c)
+            else if(character)
             {
-                fail_if_eof(fputc(c, stdout), arg0);
+                fail_if_eof(fputc(character, stdout), arg0);
             }
             else
             {
