@@ -1,3 +1,4 @@
+#!/bin/sh -
 # SPDX-License-Identifier: 0BSD
 # Copyright 2023 Alexander Kozhevnikov <mentalisttraceur@gmail.com>
 
