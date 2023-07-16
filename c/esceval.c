@@ -15,42 +15,9 @@ void fail_if_eof(int result, char * arg0)
 }
 
 static
-int esceval_fput_quotes(unsigned int count, FILE * output)
-{
-    if(count == 1)
-    {
-        if(fputs("\\'", output) == EOF)
-        {
-            return EOF;
-        }
-    }
-    else
-    if(count > 1)
-    {
-        if(fputc('"', output) == EOF)
-        {
-            return EOF;
-        }
-        while(count--)
-        {
-            if(fputc('\'', output) == EOF)
-            {
-                return EOF;
-            }
-        }
-        if(fputc('"', output) == EOF)
-        {
-            return EOF;
-        }
-    }
-    return 0;
-}
-
-static
 int esceval(char * unescaped, FILE * output)
 {
     char next = *unescaped;
-    unsigned int quotes = 0;
     if(next == '\0')
     {
         return fputs("''", output);
@@ -71,14 +38,9 @@ int esceval(char * unescaped, FILE * output)
         {
             if(current == '\'')
             {
-                quotes += 1;
-                if(quotes == -1)
+                if(fputs("\\'", output) == EOF)
                 {
-                    if(esceval_fput_quotes(quotes, output) == EOF)
-                    {
-                        return EOF;
-                    }
-                    quotes = 0;
+                    return EOF;
                 }
             }
             else
@@ -91,23 +53,13 @@ int esceval(char * unescaped, FILE * output)
             }
             if(next == '\0')
             {
-                if(esceval_fput_quotes(quotes, output) == EOF)
-                {
-                    return EOF;
-                }
                 return 0;
             }
         }
         else
         if(current == '\'')
         {
-            quotes += 1;
-            if(esceval_fput_quotes(quotes, output) == EOF)
-            {
-                return EOF;
-            }
-            quotes = 0;
-            if(fputc('\'', output) == EOF)
+            if(fputs("\\''", output) == EOF)
             {
                 return EOF;
             }
