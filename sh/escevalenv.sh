@@ -44,7 +44,8 @@ escevalenv()
     case $# in 0) return 0; esac
     while :
     do
-        unescaped=`printenv "$1" || :`
+        unescaped=`{ printenv "$1" && echo x; } || :`
+        unescaped=${unescaped%?x}
         escaped=
         _esceval
         shift
