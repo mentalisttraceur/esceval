@@ -32,3 +32,7 @@ sh/escevalidenv:
 
 clean:
 	rm -f esceval escevalid escevalenv escevalidenv
+	rm -rf __pycache__
+
+test: clean c
+	pytest test.py
