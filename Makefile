@@ -1,19 +1,21 @@
+CFLAGS ?= -std=c89 -pedantic -O3
+
 c: c/esceval c/escevalid c/escevalenv c/escevalidenv
 
 c/esceval:
-	gcc -std=c89 -pedantic -fPIE -Os -o esceval c/esceval.c
+	$(CC) $(CFLAGS) -o esceval c/esceval.c
 	strip esceval
 
 c/escevalid:
-	gcc -std=c89 -pedantic -fPIE -Os -o escevalid c/escevalid.c
+	$(CC) $(CFLAGS) -o escevalid c/escevalid.c
 	strip escevalid
 
 c/escevalenv:
-	gcc -std=c89 -pedantic -fPIE -Os -o escevalenv c/escevalenv.c
+	$(CC) $(CFLAGS) -o escevalenv c/escevalenv.c
 	strip escevalenv
 
 c/escevalidenv:
-	gcc -std=c89 -pedantic -fPIE -Os -o escevalidenv c/escevalidenv.c
+	$(CC) $(CFLAGS) -o escevalidenv c/escevalidenv.c
 	strip escevalidenv
 
 sh: sh/esceval sh/escevalid sh/escevalenv sh/escevalidenv
