@@ -1,10 +1,10 @@
 /* SPDX-License-Identifier: 0BSD */
 /* Copyright 2017 Alexander Kozhevnikov <mentalisttraceur@gmail.com> */
 
-#include <stdlib.h> /* EXIT_SUCCESS, EXIT_FAILURE, getenv */
+#include <stdlib.h> /* EXIT_SUCCESS, EXIT_FAILURE */
 
 static
-int escevalid_quoted_string(char * * unvalidated)
+int escevalcheck_quoted_string(char * * unvalidated)
 {
     char * string = *unvalidated;
     if(*string != '\'')
@@ -29,7 +29,7 @@ int escevalid_quoted_string(char * * unvalidated)
 }
 
 static
-int escevalid_backslash_quote(char * * unvalidated)
+int escevalcheck_backslash_quote(char * * unvalidated)
 {
     char * string = *unvalidated;
     if(*string != '\\')
@@ -46,7 +46,7 @@ int escevalid_backslash_quote(char * * unvalidated)
 }
 
 static
-int escevalid_spaces(char * * unvalidated)
+int escevalcheck_spaces(char * * unvalidated)
 {
     char * string = *unvalidated;
     int matched = 0;
@@ -60,13 +60,13 @@ int escevalid_spaces(char * * unvalidated)
 }
 
 static
-int escevalid(char * unvalidated)
+int escevalcheck(char * unvalidated)
 {
     while(*unvalidated != '\0')
     {
-        if(!escevalid_quoted_string(&unvalidated)
-        && !escevalid_backslash_quote(&unvalidated)
-        && !escevalid_spaces(&unvalidated))
+        if(!escevalcheck_quoted_string(&unvalidated)
+        && !escevalcheck_backslash_quote(&unvalidated)
+        && !escevalcheck_spaces(&unvalidated))
         {
             return 0;
         }
@@ -77,7 +77,6 @@ int escevalid(char * unvalidated)
 int main(int argc, char * * argv)
 {
     char * arg;
-    char * env;
     if(argc < 2)
     {
         return EXIT_SUCCESS;
@@ -85,12 +84,7 @@ int main(int argc, char * * argv)
     argv += 1;
     while((arg = *argv++))
     {
-        env = getenv(arg);
-        if(!env)
-        {
-            env = "";
-        }
-        if(!escevalid(env))
+        if(!escevalcheck(arg))
         {
             return EXIT_FAILURE;
         }

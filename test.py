@@ -143,104 +143,105 @@ def _run_env(program, strings):
 def c_esceval(strings):
     return _run('./esceval', strings)
 
-def c_escevalid(strings):
-    return _run('./escevalid', strings)
+def c_escevalcheck(strings):
+    return _run('./escevalcheck', strings)
 
 def c_escevalenv(strings):
     return _run_env('./escevalenv', strings)
 
-def c_escevalidenv(strings):
-    return _run_env('./escevalidenv', strings)
+def c_escevalcheckenv(strings):
+    return _run_env('./escevalcheckenv', strings)
 
 def sh_esceval(strings):
     return _run('sh/esceval.sh', strings)
 
-def sh_escevalid(strings):
-    return _run('sh/escevalid.sh', strings)
+def sh_escevalcheck(strings):
+    return _run('sh/escevalcheck.sh', strings)
 
 def sh_escevalenv(strings):
     return _run_env('sh/escevalenv.sh', strings)
 
-def sh_escevalidenv(strings):
-    return _run_env('sh/escevalidenv.sh', strings)
+def sh_escevalcheckenv(strings):
+    return _run_env('sh/escevalcheckenv.sh', strings)
 
 
 # Tests
 
-# Verify that escevalid accepts valid strings (and the nil case of no strings):
+# Verify that escevalcheck accepts valid strings
+# (and the nil case of no strings):
 
 @given(lists(escaped_strings))
-def test_c_escevalid_accept(strings):
-    c_escevalid(strings)
+def test_c_escevalcheck_accept(strings):
+    c_escevalcheck(strings)
 
 @given(lists(escaped_strings))
-def test_c_escevalidenv_accept(strings):
-    c_escevalidenv(strings)
+def test_c_escevalcheckenv_accept(strings):
+    c_escevalcheckenv(strings)
 
 @given(lists(escaped_strings))
-def test_sh_escevalid_accept(strings):
-    sh_escevalid(strings)
+def test_sh_escevalcheck_accept(strings):
+    sh_escevalcheck(strings)
 
 @given(lists(escaped_strings))
-def test_sh_escevalidenv_accept(strings):
-    sh_escevalidenv(strings)
+def test_sh_escevalcheckenv_accept(strings):
+    sh_escevalcheckenv(strings)
 
-# Verify that escevalid rejects invalid strings:
-
-@given(lists_of_strings_at_least_one_invalid())
-def test_c_escevalid_reject(strings):
-    with pytest.raises(subprocess.CalledProcessError):
-        c_escevalid(strings)
+# Verify that escevalcheck rejects invalid strings:
 
 @given(lists_of_strings_at_least_one_invalid())
-def test_c_escevalidenv_reject(strings):
+def test_c_escevalcheck_reject(strings):
     with pytest.raises(subprocess.CalledProcessError):
-        c_escevalidenv(strings)
+        c_escevalcheck(strings)
 
 @given(lists_of_strings_at_least_one_invalid())
-def test_sh_escevalid_reject(strings):
+def test_c_escevalcheckenv_reject(strings):
     with pytest.raises(subprocess.CalledProcessError):
-        sh_escevalid(strings)
+        c_escevalcheckenv(strings)
 
 @given(lists_of_strings_at_least_one_invalid())
-def test_sh_escevalidenv_reject(strings):
+def test_sh_escevalcheck_reject(strings):
     with pytest.raises(subprocess.CalledProcessError):
-        sh_escevalidenv(strings)
+        sh_escevalcheck(strings)
 
-# Verify that esceval produces strings that escevalid accepts:
+@given(lists_of_strings_at_least_one_invalid())
+def test_sh_escevalcheckenv_reject(strings):
+    with pytest.raises(subprocess.CalledProcessError):
+        sh_escevalcheckenv(strings)
 
-def _test_esceval_escevalid(esceval, strings):
+# Verify that esceval produces strings that escevalcheck accepts:
+
+def _test_esceval_escevalcheck(esceval, strings):
     escaped = esceval(strings)
-    # In principle, the above tests have validated all escevalid
+    # In principle, the above tests have validated all escevalcheck
     # variants to the same exacting standard, so we could test
     # against just one of the faster variants here, buying more
     # fuzzing time and/or a faster change-test feedback loop.
     # On the other hand, testing against all four helps interlock
     # the correctness of each piece - for the above tests to fail,
-    # just the escevalid implementations and the test code has to
+    # just the escevalcheck implementations and the test code has to
     # be wrong, but for this to fail, the esceval implementations
     # all have to be wrong too. It also doesn't actually add much
     # time to the test execution to test all four.
-    c_escevalid([escaped])
-    c_escevalidenv([escaped])
-    sh_escevalid([escaped])
-    sh_escevalidenv([escaped])
+    c_escevalcheck([escaped])
+    c_escevalcheckenv([escaped])
+    sh_escevalcheck([escaped])
+    sh_escevalcheckenv([escaped])
 
 @given(lists(valid_strings))
-def test_c_esceval_escevalid(strings):
-    _test_esceval_escevalid(c_esceval, strings)
+def test_c_esceval_escevalcheck(strings):
+    _test_esceval_escevalcheck(c_esceval, strings)
 
 @given(lists(valid_strings))
-def test_c_escevalenv_escevalid(strings):
-    _test_esceval_escevalid(c_escevalenv, strings)
+def test_c_escevalenv_escevalcheck(strings):
+    _test_esceval_escevalcheck(c_escevalenv, strings)
 
 @given(lists(valid_strings))
-def test_sh_esceval_escevalid(strings):
-    _test_esceval_escevalid(sh_esceval, strings)
+def test_sh_esceval_escevalcheck(strings):
+    _test_esceval_escevalcheck(sh_esceval, strings)
 
 @given(lists(valid_strings))
-def test_sh_escevalenv_escevalid(strings):
-    _test_esceval_escevalid(sh_escevalenv, strings)
+def test_sh_escevalenv_escevalcheck(strings):
+    _test_esceval_escevalcheck(sh_escevalenv, strings)
 
 # Verify that esceval produces strings that evaluate back to the same data:
 

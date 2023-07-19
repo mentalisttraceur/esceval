@@ -3,7 +3,7 @@
 # Copyright 2023 Alexander Kozhevnikov <mentalisttraceur@gmail.com>
 
 # Mutates: $unvalidated
-_escevalid_quoted_string()
+_escevalcheck_quoted_string()
 {
     case $unvalidated in \'*) :;; *)
         return 1
@@ -26,7 +26,7 @@ _escevalid_quoted_string()
 }
 
 # Mutates: $unvalidated
-_escevalid_backslash_quote()
+_escevalcheck_backslash_quote()
 {
     case $unvalidated in
     "\'"*)
@@ -39,7 +39,7 @@ _escevalid_backslash_quote()
 }
 
 # Mutates: $unvalidated
-_escevalid_spaces()
+_escevalcheck_spaces()
 {
     case $unvalidated in ' '*) :;; *)
         return 1
@@ -56,16 +56,17 @@ _escevalid_spaces()
     done
 }
 
-escevalid()
+escevalcheckenv()
 (
-    for unvalidated
+    for name
     do
+        unvalidated=`printenv "$name" || :`
         while :
         do
             case $unvalidated in '') break; esac
-            if ! _escevalid_quoted_string \
-            && ! _escevalid_backslash_quote \
-            && ! _escevalid_spaces
+            if ! _escevalcheck_quoted_string \
+            && ! _escevalcheck_backslash_quote \
+            && ! _escevalcheck_spaces
             then
                 exit 1
             fi
@@ -73,4 +74,4 @@ escevalid()
     done
 )
 
-escevalid "$@"
+escevalcheckenv "$@"

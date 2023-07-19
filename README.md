@@ -21,24 +21,24 @@ $ esceval foo 'bar  qux' "abc'def" "'zyx'''wvu'"
 'foo' 'bar  qux' 'abc'\''def' \''zyx'\'\'\''wvu'\'
 ```
 
-#### 2. `escevalid`
+#### 2. `escevalcheck`
 
-`escevalid` ("esceval valid?") checks each of its arguments
-- if any of them is not a validly esceval-formatted string,
+`escevalcheck` checks each of its arguments - if any
+of them is not a validly esceval-formatted string,
 exit status is `1`; otherwise, exit status is `0`.
 
 ```sh
-$ escevalid "'foo' 'bar  qux' 'abc'\''def' \''zyx'\'\'\''wvu'\'"; echo $?
+$ escevalcheck "'foo' 'bar  qux' 'abc'\''def' \''zyx'\'\'\''wvu'\'"; echo $?
 0
-$ escevalid "'foo"; echo $?  # note the missing closing quote
+$ escevalcheck "'foo"; echo $?  # note the missing closing quote
 1
 ```
 
-#### 3. `escevalenv` and `escevalidenv`
+#### 3. `escevalenv` and `escevalcheckenv`
 
-`escevalenv` and `escevalidenv` are the same as `esceval`
-and `escevalid`, but they take environment variable names
-as arguments:
+`escevalenv` and `escevalcheckenv` are the same
+as `esceval` and `escevalcheck`, but they take
+environment variable names as arguments:
 
 ```sh
 $ esceval PATH
@@ -62,12 +62,12 @@ since on most operating systems, environment variables are
 kept more private from other processes than arguments.
 
 If a given environment variable is not set, `escevalenv` and
-`escevalidenv` treat it as if it's set to the empty string:
+`escevalcheckenv` treat it as if it's set to the empty string:
 
 ```sh
 $ escevalenv EXAMPLE_NAME_WHICH_IS_NOT_SET
 ''
-$ escevalidenv EXAMPLE_NAME_WHICH_IS_NOT_SET; echo $?
+$ escevalcheckenv EXAMPLE_NAME_WHICH_IS_NOT_SET; echo $?
 0
 ```
 
@@ -87,7 +87,7 @@ pushd()
 
 popd()
 {
-    if ! escevalid "$DIRECTORY_STACK"
+    if ! escevalcheck "$DIRECTORY_STACK"
     then
         printf '%s\n' 'popd: directory stack corrupted' 1>&2
         return 1
@@ -158,7 +158,7 @@ simple to verify as safe to evaluate, use `esceval`.
 (Command-line implementations of `esceval` should write
 a newline after the last encoded string for convenience,
 but this is not part of the `esceval` format, and
-`escevalid` implementations must reject unescaped
+`escevalcheck` implementations must reject unescaped
 newlines since they would parse as command separators
 when evaluated by most shells in most contexts.)
 
