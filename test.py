@@ -30,10 +30,10 @@ escaped_strings = lists(one_of(
 
 # Now for strings which are not valid esceval-escaped strings.
 #
-# A key point is that we can't just generate anything might not
-# be valid, since invalidities could cancel each other out. For
+# A key point is that we can't just generate anything that might
+# not be valid, since invalidities could cancel each other out. For
 # example, if we generate `\` and `'''`, which are both invalid,
-# their catenation is valid (`\'''` is a redundant encoding of `,`);
+# their catenation is valid (`\'''` is a redundant encoding of `'`);
 # for another example, if we have two valid tokens separated by
 # spaces, such as `'ab' 'cd'` and we allowed both to be permuted
 # into invalidity, we could end up with valid redundant encodings
