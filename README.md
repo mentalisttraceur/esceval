@@ -41,7 +41,7 @@ as `esceval` and `escevalcheck`, but they take
 environment variable names as arguments:
 
 ```sh
-$ esceval PATH
+$ escevalenv PATH
 '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 ```
 
