@@ -80,7 +80,7 @@ invalid_strings_by_themselves = one_of(
 # followed by `'\'`, which is a valid single-quoting of a backslash).
 # Yet another way to see this: we can reliably produce an invalid
 # string by removing the last character of a valid quoted string,
-# but removing the first character might produce another invalid
+# but removing the first character might produce another valid
 # string (for example, `\''\'` is a valid encoding of `'\`, and
 # `''\'` is a valid but redundant encoding of `'`).
 @composite
