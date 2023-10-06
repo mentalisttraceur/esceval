@@ -76,7 +76,7 @@ invalid_strings_by_themselves = one_of(
 # changing the interpretation of the valid suffix). For example,
 # `'''` is invalid, and `\'` is a valid backslash-escaping of a
 # single-quote, but if we catenate them, we get `'''\'`, which
-# parses # validly (`''`, which is a redundant encoding of nothing,
+# parses validly (`''`, which is a redundant encoding of nothing,
 # followed by `'\'`, which is a valid single-quoting of a backslash).
 # Yet another way to see this: we can reliably produce an invalid
 # string by removing the last character of a valid quoted string,
