@@ -111,10 +111,10 @@ _popd()
 
 ## Lists, Stacks, Queues
 
-`esceval` (combined with `eval`, a shell function or
-`set --`, and `shift`) makes it really easy to write
-shell scripts which work with lists, stacks, and queues,
-even on shells without native arrays.
+`esceval` (combined with `eval`, a shell function
+or `set --`, and `shift`) makes it really easy to
+write shell scripts which work with lists, stacks,
+and queues, even on shells without native arrays.
 
 The above example shows how we can implement stack
 push and pop. For FIFO queue behavior, we just
