@@ -147,20 +147,20 @@ simple to verify as safe to evaluate, use `esceval`.
 1. A single-quote (`'`) is encoded as a
    backslash and then a single-quote (`\'`).
 
-2. Any substrings of characters other than single-quotes
-   are encoded by wrapping them in single-quotes.
+2. Any characters other than single-quotes are
+   encoded by wrapping them in single-quotes.
    (For example, `abc` is encoded as `'abc'`.)
-   This includes the empty string (encoded as `''`).
 
-3. Separate strings are separated by one or more spaces
-   (` `).
+3. The empty string is encoded as `''`.
+
+4. Strings are separated by one or more spaces (` `).
    
-(Command-line implementations of `esceval` should write
-a newline after the last encoded string for convenience,
+(Command-line implementations of `esceval` should
+write a newline after the last string for convenience,
 but this is not part of the `esceval` format, and
-`escevalcheck` implementations must reject unescaped
-newlines since they would parse as command separators
-when evaluated by most shells in most contexts.)
+`escevalcheck` implementations must reject unencoded
+newlines, because shells parse newlines as the end
+of a command.)
 
 Redundant encodings (for example, encoding `a''b`
 into `'a'\'''\''b'` instead of `'a'\'\''b'`) are
