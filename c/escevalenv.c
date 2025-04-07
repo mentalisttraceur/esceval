@@ -18,7 +18,7 @@ static
 int esceval(char * unescaped, FILE * output)
 {
     char next = *unescaped;
-    if(next == '\0')
+    if(!next)
     {
         return fputs("''", output);
     }
@@ -51,7 +51,7 @@ int esceval(char * unescaped, FILE * output)
                     return EOF;
                 }
             }
-            if(next == '\0')
+            if(!next)
             {
                 return 0;
             }

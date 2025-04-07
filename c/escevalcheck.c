@@ -20,7 +20,7 @@ int escevalcheck_quoted_string(char * * unvalidated)
             *unvalidated = string + 1;
             return 1;
         }
-        else if(next == '\0')
+        else if(!next)
         {
             return 0;
         }
@@ -62,7 +62,7 @@ int escevalcheck_spaces(char * * unvalidated)
 static
 int escevalcheck(char * unvalidated)
 {
-    while(*unvalidated != '\0')
+    while(*unvalidated)
     {
         if(!escevalcheck_quoted_string(&unvalidated)
         && !escevalcheck_backslash_quote(&unvalidated)
