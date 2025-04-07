@@ -11,11 +11,11 @@ c/escevalcheck:
 	strip escevalcheck
 
 c/escevalenv:
-	$(CC) $(CFLAGS) -o escevalenv c/escevalenv.c
+	$(CC) $(CFLAGS) -DESCEVALENV -o escevalenv c/esceval.c
 	strip escevalenv
 
 c/escevalcheckenv:
-	$(CC) $(CFLAGS) -o escevalcheckenv c/escevalcheckenv.c
+	$(CC) $(CFLAGS) -DESCEVALENV -o escevalcheckenv c/escevalcheck.c
 	strip escevalcheckenv
 
 sh: sh/esceval sh/escevalcheck sh/escevalenv sh/escevalcheckenv

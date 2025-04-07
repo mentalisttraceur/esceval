@@ -2,7 +2,7 @@
 /* Copyright 2015 Alexander Kozhevnikov <mentalisttraceur@gmail.com> */
 
 #include <stdio.h> /* EOF, fflush, fputc, fputs, perror */
-#include <stdlib.h> /* EXIT_FAILURE, EXIT_SUCCESS, exit */
+#include <stdlib.h> /* EXIT_FAILURE, EXIT_SUCCESS, exit, getenv */
 
 static
 void fail_if_eof(int result, char * arg0)
@@ -85,6 +85,13 @@ int main(int argc, char * * argv)
     for(;;)
     {
         char * arg = *argv;
+#ifdef ESCEVALENV
+        arg = getenv(arg);
+        if(!arg)
+        {
+            arg = "";
+        }
+#endif
         fail_if_eof(esceval(arg, stdout), arg0);
         argv += 1;
         if(!*argv)

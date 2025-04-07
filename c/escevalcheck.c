@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: 0BSD */
 /* Copyright 2017 Alexander Kozhevnikov <mentalisttraceur@gmail.com> */
 
-#include <stdlib.h> /* EXIT_SUCCESS, EXIT_FAILURE */
+#include <stdlib.h> /* EXIT_SUCCESS, EXIT_FAILURE, getenv */
 
 static
 int escevalcheck_quoted_string(char * * unvalidated)
@@ -84,6 +84,13 @@ int main(int argc, char * * argv)
     argv += 1;
     while((arg = *argv++))
     {
+#ifdef ESCEVALENV
+        arg = getenv(arg);
+        if(!arg)
+        {
+            arg = "";
+        }
+#endif
         if(!escevalcheck(arg))
         {
             return EXIT_FAILURE;
